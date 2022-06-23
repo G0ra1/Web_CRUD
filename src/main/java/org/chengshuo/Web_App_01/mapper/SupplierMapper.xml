@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.chengshuo.Web_App_01.mapper.SupplierMapper" >
+  <resultMap id="BaseResultMap" type="org.chengshuo.Web_App_01.pojo.Supplier" >
+    <constructor >
+      <idArg column="suid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="suname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="suaddress" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    suid, suname, suaddress
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.chengshuo.Web_App_01.pojo.SupplierExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from supplier
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from supplier
+    where suid = #{suid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from supplier
+    where suid = #{suid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.chengshuo.Web_App_01.pojo.SupplierExample" >
+    delete from supplier
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.chengshuo.Web_App_01.pojo.Supplier" >
+    insert into supplier (suid, suname, suaddress
+      )
+    values (#{suid,jdbcType=INTEGER}, #{suname,jdbcType=VARCHAR}, #{suaddress,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.chengshuo.Web_App_01.pojo.Supplier" >
+    insert into supplier
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="suid != null" >
+        suid,
+      </if>
+      <if test="suname != null" >
+        suname,
+      </if>
+      <if test="suaddress != null" >
+        suaddress,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="suid != null" >
+        #{suid,jdbcType=INTEGER},
+      </if>
+      <if test="suname != null" >
+        #{suname,jdbcType=VARCHAR},
+      </if>
+      <if test="suaddress != null" >
+        #{suaddress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.chengshuo.Web_App_01.pojo.SupplierExample" resultType="java.lang.Integer" >
+    select count(*) from supplier
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update supplier
+    <set >
+      <if test="record.suid != null" >
+        suid = #{record.suid,jdbcType=INTEGER},
+      </if>
+      <if test="record.suname != null" >
+        suname = #{record.suname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suaddress != null" >
+        suaddress = #{record.suaddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update supplier
+    set suid = #{record.suid,jdbcType=INTEGER},
+      suname = #{record.suname,jdbcType=VARCHAR},
+      suaddress = #{record.suaddress,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.chengshuo.Web_App_01.pojo.Supplier" >
+    update supplier
+    <set >
+      <if test="suname != null" >
+        suname = #{suname,jdbcType=VARCHAR},
+      </if>
+      <if test="suaddress != null" >
+        suaddress = #{suaddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where suid = #{suid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.chengshuo.Web_App_01.pojo.Supplier" >
+    update supplier
+    set suname = #{suname,jdbcType=VARCHAR},
+      suaddress = #{suaddress,jdbcType=VARCHAR}
+    where suid = #{suid,jdbcType=INTEGER}
+  </update>
+</mapper>

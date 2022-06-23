@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.chengshuo.Web_App_01.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="org.chengshuo.Web_App_01.pojo.User" >
+    <constructor >
+      <idArg column="usid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="usname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="usphone" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="uspass" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="usemail" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="usimg" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    usid, usname, usphone, uspass, usemail, usimg
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.chengshuo.Web_App_01.pojo.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where usid = #{usid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where usid = #{usid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.chengshuo.Web_App_01.pojo.UserExample" >
+    delete from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.chengshuo.Web_App_01.pojo.User" >
+    insert into user (usid, usname, usphone, 
+      uspass, usemail, usimg
+      )
+    values (#{usid,jdbcType=INTEGER}, #{usname,jdbcType=VARCHAR}, #{usphone,jdbcType=VARCHAR}, 
+      #{uspass,jdbcType=VARCHAR}, #{usemail,jdbcType=VARCHAR}, #{usimg,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.chengshuo.Web_App_01.pojo.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="usid != null" >
+        usid,
+      </if>
+      <if test="usname != null" >
+        usname,
+      </if>
+      <if test="usphone != null" >
+        usphone,
+      </if>
+      <if test="uspass != null" >
+        uspass,
+      </if>
+      <if test="usemail != null" >
+        usemail,
+      </if>
+      <if test="usimg != null" >
+        usimg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="usid != null" >
+        #{usid,jdbcType=INTEGER},
+      </if>
+      <if test="usname != null" >
+        #{usname,jdbcType=VARCHAR},
+      </if>
+      <if test="usphone != null" >
+        #{usphone,jdbcType=VARCHAR},
+      </if>
+      <if test="uspass != null" >
+        #{uspass,jdbcType=VARCHAR},
+      </if>
+      <if test="usemail != null" >
+        #{usemail,jdbcType=VARCHAR},
+      </if>
+      <if test="usimg != null" >
+        #{usimg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.chengshuo.Web_App_01.pojo.UserExample" resultType="java.lang.Integer" >
+    select count(*) from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user
+    <set >
+      <if test="record.usid != null" >
+        usid = #{record.usid,jdbcType=INTEGER},
+      </if>
+      <if test="record.usname != null" >
+        usname = #{record.usname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usphone != null" >
+        usphone = #{record.usphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uspass != null" >
+        uspass = #{record.uspass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usemail != null" >
+        usemail = #{record.usemail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usimg != null" >
+        usimg = #{record.usimg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user
+    set usid = #{record.usid,jdbcType=INTEGER},
+      usname = #{record.usname,jdbcType=VARCHAR},
+      usphone = #{record.usphone,jdbcType=VARCHAR},
+      uspass = #{record.uspass,jdbcType=VARCHAR},
+      usemail = #{record.usemail,jdbcType=VARCHAR},
+      usimg = #{record.usimg,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.chengshuo.Web_App_01.pojo.User" >
+    update user
+    <set >
+      <if test="usname != null" >
+        usname = #{usname,jdbcType=VARCHAR},
+      </if>
+      <if test="usphone != null" >
+        usphone = #{usphone,jdbcType=VARCHAR},
+      </if>
+      <if test="uspass != null" >
+        uspass = #{uspass,jdbcType=VARCHAR},
+      </if>
+      <if test="usemail != null" >
+        usemail = #{usemail,jdbcType=VARCHAR},
+      </if>
+      <if test="usimg != null" >
+        usimg = #{usimg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where usid = #{usid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.chengshuo.Web_App_01.pojo.User" >
+    update user
+    set usname = #{usname,jdbcType=VARCHAR},
+      usphone = #{usphone,jdbcType=VARCHAR},
+      uspass = #{uspass,jdbcType=VARCHAR},
+      usemail = #{usemail,jdbcType=VARCHAR},
+      usimg = #{usimg,jdbcType=VARCHAR}
+    where usid = #{usid,jdbcType=INTEGER}
+  </update>
+</mapper>
